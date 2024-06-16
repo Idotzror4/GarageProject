@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ex03.ConsoleUI
+namespace Ex03.GarageLogic
 {
-    internal class Console
+    public enum eMotorcycleLicenseType
     {
+        A,
+        A1,
+        AA,
+        B1
     }
-
-    public void 
 }

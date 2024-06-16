@@ -40,9 +40,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Car.cs" />
+    <Compile Include="eCarColors.cs" />
+    <Compile Include="eFuelType.cs" />
     <Compile Include="ElectricEngine.cs" />
+    <Compile Include="eMotorcycleLicenseType.cs" />
     <Compile Include="Engine.cs" />
+    <Compile Include="eVehicleCondition.cs" />
     <Compile Include="FuelEngine.cs" />
+    <Compile Include="Garage.cs" />
     <Compile Include="Motorcycle.cs" />
     <Compile Include="Truck.cs" />
     <Compile Include="ValueOutOfRangeException.cs" />
