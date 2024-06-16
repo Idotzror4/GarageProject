@@ -16,5 +16,16 @@ namespace Ex03.GarageLogic
             m_RemainEnergy = i_RemainEnergy;
             m_MaxEnergy = i_MaxEnergy;
         }
+
+        public float RemainEnergy
+        {
+            get { return m_RemainEnergy; }
+            set { m_RemainEnergy = value; }
+        }
+        public float MaxEnergy
+        {
+            get { return m_MaxEnergy; }
+        }
+
     }
 }

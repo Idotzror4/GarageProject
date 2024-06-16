@@ -12,6 +12,16 @@ namespace Ex03.GarageLogic
             : base(i_RemainEnergy, i_MaxEnergy)
         {
         }
-        public void BatteryCharging() { }
+        public void BatteryCharging(float i_HoursAmountToAdd) 
+        {
+            if (i_HoursAmountToAdd + RemainEnergy > MaxEnergy)
+            {
+                throw new ValueOutOfRangeException(0, MaxEnergy - RemainEnergy);
+            }
+            else
+            {
+                RemainEnergy += i_HoursAmountToAdd;
+            }
+        }
     }
 }
