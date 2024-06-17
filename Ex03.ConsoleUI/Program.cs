@@ -10,6 +10,8 @@ namespace Ex03.ConsoleUI
     {
         static void Main()
         {
+            ConsoleUI hi = new ConsoleUI();
+            hi.GetDataFromNewVehicle();
         }
     }
 }

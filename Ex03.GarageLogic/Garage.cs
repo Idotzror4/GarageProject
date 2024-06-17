@@ -1,33 +1,68 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
-    internal class Garage
+    public class Garage
     {
-        internal struct VehicleOwnerData
-        {
-            string m_OwnerName;
-            string m_OwnerPhoneNumber;
-            eVehicleCondition m_VehicleCondition;
-            Vehicle m_Vehicle;
-           
-            public VehicleOwnerData(string i_OwnerName, string i_OwnerPhoneNumber, Vehicle i_Vehicle)
-            {
-                m_OwnerName = i_OwnerName;
-                m_OwnerPhoneNumber = i_OwnerPhoneNumber;
-                m_VehicleCondition = eVehicleCondition.UnderRepair;
-                m_Vehicle = i_Vehicle;
-            }
-        }
         List<VehicleOwnerData> i_VehiclesInTheGarage;
-
+        
         public Garage()
         {
             i_VehiclesInTheGarage = new List<VehicleOwnerData>();
         }
+
+        public bool CheckIfVehicleIsInTheGarage(string i_LicenseNumber)
+        {
+            bool foundVehicle = false;
+
+            foreach (VehicleOwnerData item in i_VehiclesInTheGarage)
+            {
+                if (item.TheVehicle.LicenseNumber.Equals(i_LicenseNumber))
+                {
+                    foundVehicle = true;
+                    break;
+                }
+            }
+            return foundVehicle;
+        }
+
+        public void ChangeVehicleConditionToUnderRepair(string i_LicenseNumber)
+        {
+            foreach (VehicleOwnerData item in i_VehiclesInTheGarage)
+            {
+                if (item.TheVehicle.LicenseNumber.Equals(i_LicenseNumber))
+                {
+                    item.VehicleCondition = eVehicleCondition.UnderRepair;
+                    break;
+                }
+            }
+        }
+
+
+        //    public Dictionary<string, string>  chooseDictionery(string i_KindVehicle)
+        //    {
+        //        Dictionary<string, string> vehicleQuestions = new Dictionary<string, string>();
+        //        switch (i_KindVehicle.ToLower())
+        //        {
+        //            case "car":
+        //                vehicleQuestions = Car.GetVehicleQuestions();
+        //                break;
+        //            case "motorcycle":
+        //                vehicleQuestions = Motorcycle.GetVehicleQuestions();
+        //                break;
+        //            case "truck":
+        //                vehicleQuestions = Truck.GetVehicleQuestions();
+        //                break;
+        //            default:
+        //                throw new ArgumentException("Invalid vehicle type.");
+        //        }
+        //        return vehicleQuestions;
+        //    }
     }
 }

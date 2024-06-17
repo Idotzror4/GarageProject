@@ -11,10 +11,14 @@ namespace Ex03.GarageLogic
     {
         private string m_FuelKind;
 
-        public FuelEngine(float i_RemainEnergy, float i_MaxEnergy, string i_FuelKind)
-            : base(i_RemainEnergy, i_MaxEnergy)
+        public string FuelKind
         {
-            m_FuelKind = i_FuelKind;
+            get { return m_FuelKind; }
+            set { m_FuelKind = value; }
+        }
+
+        public FuelEngine(float i_MaxEnergy) : base(i_MaxEnergy)
+        {
         }
 
         public void Refueling(String i_FuelKind, float i_FuelAmountToAdd)
@@ -33,5 +37,11 @@ namespace Ex03.GarageLogic
             }
         }
 
+
+        //public FuelEngine(float i_RemainEnergy, float i_MaxEnergy, string i_FuelKind)
+        //    : base(i_RemainEnergy, i_MaxEnergy)
+        //{
+        //    m_FuelKind = i_FuelKind;
+        //}
     }
 }
