@@ -23,10 +23,7 @@ namespace Ex03.GarageLogic
         }
 
 
-        public Motorcycle(Engine i_Engine) : base(2, 33, i_Engine)
-        {
-
-        }
+        public Motorcycle(Engine i_Engine) : base(2, 33, i_Engine) { }
 
 
 

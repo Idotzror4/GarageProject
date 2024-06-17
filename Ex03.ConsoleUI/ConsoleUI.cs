@@ -141,6 +141,23 @@ namespace Ex03.ConsoleUI
                                 throw new ArgumentException(string.Format("Invalid input for {0}.", nameWithSpaces));
                             }
                         }
+                        else if (property.PropertyType == typeof(int) || property.PropertyType == typeof(float))
+                        {
+                            int userInput;
+
+                            if (int.TryParse(Console.ReadLine(), out userInput))
+                            {
+                                if (userInput <= 0)
+                                {
+                                    throw new ArgumentException(string.Format("Invalid input for {0}.", nameWithSpaces));
+                                }
+                                property.SetValue(i_Vehicle, userInput);
+                            }
+                            else
+                            {
+                                throw new FormatException("Invalid input format. Please enter a valid number.");
+                            }
+                        }
                         else
                         {
                             string userInput = Console.ReadLine();
