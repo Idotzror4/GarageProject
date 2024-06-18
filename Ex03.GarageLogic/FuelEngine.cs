@@ -22,11 +22,11 @@ namespace Ex03.GarageLogic
             m_FuelKind = i_FuelKind;
         }
 
-        public void Refueling(String i_FuelKind, float i_FuelAmountToAdd)
+        public void Refueling(float i_FuelAmountToAdd, eFuelType i_FuelKind)
         {
             if (!i_FuelKind.Equals(m_FuelKind))
             {
-                throw new ArgumentException();
+                throw new ArgumentException("The fuel kind isn't suitable.");
             }
             else if (i_FuelAmountToAdd + RemainEnergy > MaxEnergy)
             {

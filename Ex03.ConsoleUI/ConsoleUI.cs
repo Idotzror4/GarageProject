@@ -1,6 +1,7 @@
 ﻿using Ex03.GarageLogic;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -29,6 +30,8 @@ namespace Ex03.ConsoleUI
                     GetConditionAndLicenseNumberAndChangeCondition();
                 if (actionChoice == 4)
                     InflatingWheelToMaximum();
+                if (actionChoice == 5)
+                    Refueling();
                 if (actionChoice == 7)
                     PresentsFullDataAccordingToLicenseNumber();
             }
@@ -710,14 +713,20 @@ namespace Ex03.ConsoleUI
             }
         }//task7 // mush
 
-        public void reRefueling()
+        public void Refueling()
         {
             string licenseNumber;
+            bool validFuel = false;
+            float amountOfFuel;
+            eFuelType eFuelType;
             try
             {
                 Console.Write("Please enter a license number: ");
                 licenseNumber = GetLicenseNumberFromUser();
 
+                eFuelType = GetKindOfFuelFromUser();
+                amountOfFuel = GetAmountOfEnergyFromUser();
+                garage.CheckIfTheFuelSuitableForVehicle(licenseNumber, eFuelType, amountOfFuel);
             }
             catch (ArgumentException ex)
             {
@@ -731,14 +740,76 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        public void GetKindOfFuelFromUser()
+        public eFuelType GetKindOfFuelFromUser()
         {
+            bool validInput = false;
+            int valueFromUser = 0;
+            eFuelType eFuelType = 0;
             Console.Write("Please choose a type of fuel to fill your vehicle:" + Environment.NewLine);
             Console.Write("1. {0}", eFuelType.Octan98 + Environment.NewLine);
-            Console.Write("2. {1}", eFuelType.Octan95 + Environment.NewLine);
-            Console.Write("3. {2}", eFuelType.Soler + Environment.NewLine);
+            Console.Write("2. {0}", eFuelType.Octan95 + Environment.NewLine);
+            Console.Write("3. {0}", eFuelType.Soler + Environment.NewLine);
 
+            while (!validInput)
+            {
+                try
+                {
+                    valueFromUser = int.Parse(Console.ReadLine());
+                    if (valueFromUser < 1 || valueFromUser > 3)
+                    {
+                        throw new ValueOutOfRangeException(1, 3);
+                    }
+                    else
+                    {
+                        eFuelType = (eFuelType)valueFromUser;
+                        validInput = true;
+                    }
+                }
+                catch(ValueOutOfRangeException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+            return eFuelType;
         }
+
+        public float GetAmountOfEnergyFromUser()
+        {
+            bool validInput = false;
+            float valueFromUser = 0;
+
+            Console.WriteLine("Please insert an amount of energy:");
+
+            while (!validInput)
+            {
+                try
+                {
+                    if (!float.TryParse(Console.ReadLine(), out valueFromUser))
+                    {
+                        throw new FormatException("Invalid input format. Please enter a valid number.");
+                    }
+                    if (valueFromUser <= 0)
+                    {
+                        throw new ArgumentException("Energy amount must be a positive number.");
+                    }
+                    validInput = true;
+                }
+                catch (FormatException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+            return valueFromUser;
+        }
+
     }
 }
         
