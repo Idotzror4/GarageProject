@@ -9,7 +9,7 @@ namespace Ex03.GarageLogic
 {
     public abstract class Vehicle
     {
-        internal class Wheel
+        public class Wheel
         {
             private string m_ProducerName;
             private float m_CurrentAirPressure;
@@ -19,13 +19,6 @@ namespace Ex03.GarageLogic
             {
                 m_MaxAirPressure = i_maxAirPressure;
             }
-
-            //public Wheel(string i_producerName, float i_currentAirPressure, float i_maxAirPressure)
-            //{
-            //    m_ProducerName = i_producerName;
-            //    m_CurrentAirPressure = i_currentAirPressure;
-            //    m_MaxAirPressure = i_maxAirPressure;
-            //}
             public string ProducerName
             {
                 get { return m_ProducerName; }
@@ -36,6 +29,12 @@ namespace Ex03.GarageLogic
                 get { return m_CurrentAirPressure; }
                 set { m_CurrentAirPressure = value; }
             }
+            public float MaxAirPressure
+            {
+                get { return m_MaxAirPressure; }
+                set { m_MaxAirPressure = value; }
+            }
+
             public void InflatingAWheel(float i_AmountOfAirAddindToTheWheel) //throwing exception but not catching it
             {
                 if (i_AmountOfAirAddindToTheWheel + m_CurrentAirPressure > m_MaxAirPressure)
@@ -46,6 +45,15 @@ namespace Ex03.GarageLogic
                 {
                     m_CurrentAirPressure += i_AmountOfAirAddindToTheWheel;
                 }
+            }
+            public bool CheckingIfCurrentPressureValid(float i_CurrentAirPressure)
+            {
+                bool isValid = true;
+                if(i_CurrentAirPressure > m_MaxAirPressure)
+                {
+                    isValid = false;
+                }    
+                return isValid;
             }
         }
         private string m_ModelName;
@@ -74,6 +82,12 @@ namespace Ex03.GarageLogic
             get { return m_VehicleEngine; }
             set { m_VehicleEngine = value; }
         }
+        public List<Wheel> WheelsList
+        {
+            get { return m_Wheels; }
+            set { m_Wheels = value; }
+        }
+
         public Vehicle(int i_AmountOfWheels, float i_MaxAirPressure, Engine i_Engine)
         {
             m_VehicleEngine = i_Engine;
@@ -85,39 +99,6 @@ namespace Ex03.GarageLogic
                 m_Wheels.Add(new Wheel(i_MaxAirPressure));
             }
         }
-
-        public virtual bool CheckIfValidationVehicle()
-        {
-            bool validVehicle = false;
-
-            return validVehicle;
-        }
        
-
-        //public Vehicle(string i_ModelName, string i_LicenseNumber, float i_RemainEnergyPercent, int i_AmountOfWheels, 
-        //               float i_MaxAirPressure, float i_CurrentAirPressure, Engine i_Engine)
-
-        //{
-        //    m_ModelName = i_ModelName;
-        //    m_LicenseNumber = i_LicenseNumber;
-        //    m_RemainEnergyPercent = i_RemainEnergyPercent;
-        //    m_VehicleEngine = i_Engine;
-        //    //m_Wheels = new List<Wheel>(i_AmountOfWheels); 
-
-        //    //for (int i = 0; i < i_AmountOfWheels; i++)
-        //    //{
-        //    //    m_Wheels.Add(new Wheel("Unknown", i_CurrentAirPressure, i_MaxAirPressure));
-        //    //}
-        //}
-
-        //public static Dictionary<string, string> GetVehicleQuestions()
-        //{
-        //    Dictionary<string, string> questionsData = new Dictionary<string, string>();
-        //    questionsData.Add("Enter model name: ", null);
-        //    questionsData.Add("Enter license number: ", null);
-        //    questionsData.Add("Enter remaining energy percent: ", null);
-
-        //    return questionsData;
-        //}
     }
 }

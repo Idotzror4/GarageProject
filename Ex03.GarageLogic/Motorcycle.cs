@@ -25,23 +25,5 @@ namespace Ex03.GarageLogic
 
         public Motorcycle(Engine i_Engine) : base(2, 33, i_Engine) { }
 
-
-
-        //public Motorcycle(string i_ModelName, string i_LicenseNumber, float i_RemainEnergyPrecent, float i_CurrentAirPressure, 
-        //                  Engine i_Engine, string i_LicenseType, int i_EngineVolumeCC)
-        //   : base(i_ModelName, i_LicenseNumber, i_RemainEnergyPrecent, 2, 33, i_CurrentAirPressure, i_Engine)
-        //{
-        //    m_LicenseType = i_LicenseType;
-        //    m_EngineVolumeCC = i_EngineVolumeCC;
-        //}
-
-        //public static Dictionary<string, string> GetVehicleQuestions()
-        //{
-        //    Dictionary<string, string> questionsData = Vehicle.GetVehicleQuestions();
-        //    questionsData.Add("Enter license type: ", null);
-        //    questionsData.Add("Enter engine volume (CC): ", null);
-
-        //    return questionsData;
-        //}
     }
 }

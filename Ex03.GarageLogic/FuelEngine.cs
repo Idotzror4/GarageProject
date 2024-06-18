@@ -9,16 +9,17 @@ namespace Ex03.GarageLogic
 {
     internal class FuelEngine : Engine
     {
-        private string m_FuelKind;
+        private eFuelType m_FuelKind;
 
-        public string FuelKind
+        public eFuelType FuelKind
         {
             get { return m_FuelKind; }
             set { m_FuelKind = value; }
         }
 
-        public FuelEngine(float i_MaxEnergy) : base(i_MaxEnergy)
+        public FuelEngine(float i_MaxEnergy, eFuelType i_FuelKind) : base(i_MaxEnergy)
         {
+            m_FuelKind = i_FuelKind;
         }
 
         public void Refueling(String i_FuelKind, float i_FuelAmountToAdd)

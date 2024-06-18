@@ -93,8 +93,8 @@ namespace Ex03.ConsoleUI
             foreach (var property in vehicleType.GetProperties())
             {
                 validInput = false;
-                if (property.Name == "LicenseNumber" || property.Name == "ModelName" 
-                    || property.Name == "RemainEnergyPercent" || property.Name == "VehicleEngine")
+                if (property.Name == "LicenseNumber" || property.Name == "ModelName"
+                    || property.Name == "RemainEnergyPercent" || property.Name == "VehicleEngine" || property.Name == "WheelsList")
                 {
                     continue;
                 }
@@ -167,9 +167,13 @@ namespace Ex03.ConsoleUI
 
                         validInput = true;
                     }
-                    catch (Exception ex)
+                    catch (FormatException ex)
                     {
-                        Console.WriteLine(string.Format(ex.Message));
+                        Console.WriteLine(ex.Message);
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        Console.WriteLine(ex.Message);
                     }
                 }
             }
@@ -221,8 +225,135 @@ namespace Ex03.ConsoleUI
                     Console.WriteLine(ex.Message);
                 }
             }
+
+            EnterWHeelsData(i_Vehicle);
         }
 
+        public void EnterWHeelsData(Vehicle i_Vehicle)
+        {
+            int userCHoiceForWHeels = 0;
+            bool validChoice = false;
+
+            Console.Write("Do you want to enter the information to all wheels at once or individual for each wheel?" + Environment.NewLine);
+            Console.Write("(1) All wheels at once" + Environment.NewLine);
+            Console.WriteLine("(2) individual for each wheel");
+
+            while (!validChoice)
+            {
+                try
+                {
+                    if (int.TryParse(Console.ReadLine(), out userCHoiceForWHeels))
+                    {
+                        if (userCHoiceForWHeels != 1 && userCHoiceForWHeels != 2)
+                        {
+                            throw new ArgumentException("Choose between 1 or 2 only.");
+                        }
+                        validChoice = true;
+                    }
+                    else
+                    {
+                        throw new FormatException("Invalid input format. Please enter a valid number.");
+                    }
+                }
+                catch (FormatException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+
+            validChoice = false;
+            string producerWheelsName;
+            float currentAirPressure;
+
+            if (userCHoiceForWHeels == 1)
+            {
+                Console.Write("Please enter the wheels prodcer name: ");
+                producerWheelsName = Console.ReadLine();
+                Console.Write("Please enter the current wheels air pressure name: ");
+
+                while (!validChoice)
+                {
+                    try
+                    {
+                        if (float.TryParse(Console.ReadLine(), out currentAirPressure))
+                        {
+                            if(i_Vehicle.WheelsList.First().CheckingIfCurrentPressureValid(currentAirPressure))
+                            {
+                                foreach (var wheel in i_Vehicle.WheelsList)
+                                {
+                                    wheel.ProducerName = producerWheelsName;
+                                    wheel.CurrentAirPressure = currentAirPressure;
+                                }
+                                validChoice = true;
+                            }
+                            else 
+                            {
+                                throw new ValueOutOfRangeException(0, i_Vehicle.WheelsList.First().MaxAirPressure);
+                            }
+                        }
+                        else
+                        {
+                            throw new FormatException("Invalid input format. Please enter a valid number.");
+                        }
+                    }
+                    catch (FormatException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                    catch (ValueOutOfRangeException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < i_Vehicle.WheelsList.Count; i++)
+                {
+                    Console.Write("Please enter the producer name for wheel {0}: ", i + 1);
+                    producerWheelsName = Console.ReadLine();
+                    validChoice = false;
+
+                    while (!validChoice)
+                    {
+                        try
+                        {
+                            Console.Write("Please enter the current air pressure for wheel {0}: ", i + 1);
+                            if (float.TryParse(Console.ReadLine(), out currentAirPressure))
+                            {
+                                i_Vehicle.WheelsList[i].ProducerName = producerWheelsName;
+                                if (i_Vehicle.WheelsList[i].CheckingIfCurrentPressureValid(currentAirPressure))
+                                {
+                                    i_Vehicle.WheelsList[i].CurrentAirPressure = currentAirPressure;
+                                    validChoice = true;
+                                }
+                                else
+                                {
+                                    throw new ValueOutOfRangeException(0, i_Vehicle.WheelsList[i].MaxAirPressure);
+                                }
+                            }
+                            else
+                            {
+                                throw new FormatException("Invalid input format. Please enter a valid number.");
+                            }
+                        }
+                        catch (FormatException ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
+                        catch (ValueOutOfRangeException ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
+        
 
