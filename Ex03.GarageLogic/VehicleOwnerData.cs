@@ -29,5 +29,11 @@ namespace Ex03.GarageLogic
             get { return m_VehicleCondition; }
             set { m_VehicleCondition = value; }
         }
+
+        public string OwnerName
+        {
+            get { return m_OwnerName; }
+            set { m_OwnerName = value; }
+        }
     }
 }

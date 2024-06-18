@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
-    internal class FuelEngine : Engine
+    public class FuelEngine : Engine
     {
         private eFuelType m_FuelKind;
 
@@ -37,12 +37,5 @@ namespace Ex03.GarageLogic
                 RemainEnergy += i_FuelAmountToAdd;
             }
         }
-
-
-        //public FuelEngine(float i_RemainEnergy, float i_MaxEnergy, string i_FuelKind)
-        //    : base(i_RemainEnergy, i_MaxEnergy)
-        //{
-        //    m_FuelKind = i_FuelKind;
-        //}
     }
 }

@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ex03.ConsoleUI
@@ -17,17 +18,66 @@ namespace Ex03.ConsoleUI
         {
             while (true)
             {
-                Console.WriteLine("enter 1/2:");
-                int function = int.Parse(Console.ReadLine());
-                if(function == 1)
+                PrintMenu();
+                int actionChoice = ChooseAction();
+
+                if (actionChoice == 1)
                     GetDataFromNewVehicle();
-                if (function == 2)
+                if (actionChoice == 2)
                     DisplayListOfLicenseNumbers();
-                if (function == 3)
+                if (actionChoice == 3)
                     GetConditionAndLicenseNumberAndChangeCondition();
+                if (actionChoice == 4)
+                    InflatingWheelToMaximum();
+                if (actionChoice == 7)
+                    PresentsFullDataAccordingToLicenseNumber();
             }
         }
+        public void PrintMenu()
+        {
+            Console.WriteLine("Welcome to our garage, please choose from the actions:");
+            Console.WriteLine("1. Add a new vehicle to the garage");
+            Console.WriteLine("2. Present the list of license numbers of the vehicles in the garage");
+            Console.WriteLine("3. Change vehicle condition");
+            Console.WriteLine("4. Inflate a vehicle's wheels to maximum");
+            Console.WriteLine("5. Fuel a vehicle");
+            Console.WriteLine("6. Charge a vehicle");
+            Console.WriteLine("7. Present full vehicle's data");
+        }
+        public int ChooseAction()
+        {
+            int actionChoice = 0;
+            bool validInput = false;
 
+            while (!validInput)
+            {
+                try
+                {
+                    if (int.TryParse(Console.ReadLine(), out actionChoice))
+                    {
+                        if (actionChoice < 1 || actionChoice > 7)
+                        {
+                            throw new ArgumentException("please enter between 1-7 actions only.");
+                        }
+                        validInput = true;
+                    }
+                    else
+                    {
+                        throw new FormatException();
+                    }
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch (FormatException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+            Console.Clear();
+            return actionChoice;
+        }
         public void GetDataFromNewVehicle()
         {
             int kindOfVehicle = 0;
@@ -84,6 +134,9 @@ namespace Ex03.ConsoleUI
 
                 garage.AddVehicleToGarage(newOwnerInTheGarage);
                 Console.WriteLine("The vehicle added to the garage successfuly!");
+                Console.WriteLine("Press any key to get back to main menu...");
+                Console.ReadKey();
+                Console.Clear();
             }
         } //task 1
 
@@ -300,7 +353,7 @@ namespace Ex03.ConsoleUI
                     {
                         if (float.TryParse(Console.ReadLine(), out currentAirPressure))
                         {
-                            if(i_Vehicle.WheelsList.First().CheckingIfCurrentPressureValid(currentAirPressure))
+                            if (i_Vehicle.WheelsList.First().CheckingIfCurrentPressureValid(currentAirPressure))
                             {
                                 foreach (var wheel in i_Vehicle.WheelsList)
                                 {
@@ -309,7 +362,7 @@ namespace Ex03.ConsoleUI
                                 }
                                 validChoice = true;
                             }
-                            else 
+                            else
                             {
                                 throw new ValueOutOfRangeException(0, i_Vehicle.WheelsList.First().MaxAirPressure);
                             }
@@ -406,6 +459,7 @@ namespace Ex03.ConsoleUI
                     Console.WriteLine(ex.Message);
                 }
             }
+            Console.Clear();
 
             switch (userCHoiceForDisplay)
             {
@@ -435,19 +489,24 @@ namespace Ex03.ConsoleUI
 
         public void PrintByCondition(eVehicleCondition i_Condition)
         {
+            Console.Clear();
             int countVehicles = 0;
             foreach (var vehicle in garage.vehicleOwnerDatas)
             {
-                if (vehicle.VehicleCondition.Equals(i_Condition))
+                if (vehicle.Value.VehicleCondition.Equals(i_Condition))
                 {
                     countVehicles++;
-                    Console.WriteLine(string.Format("{0}. {1}", countVehicles, vehicle.TheVehicle.LicenseNumber));
+                    Console.WriteLine(string.Format("{0}. {1}", countVehicles, vehicle.Value.TheVehicle.LicenseNumber));
                 }
             }
-            if(countVehicles == 0)
+            if (countVehicles == 0)
             {
                 Console.WriteLine(string.Format("There are no vehicles under '{0}' condition in the garage currently", i_Condition));
             }
+
+            Console.WriteLine("Press any key to get back to main menu...");
+            Console.ReadKey();
+            Console.Clear();
         } //task 2
 
         public void PrintAllLicenseNumbers()
@@ -457,24 +516,43 @@ namespace Ex03.ConsoleUI
             foreach (var vehicle in garage.vehicleOwnerDatas)
             {
                 countVehicles++;
-                Console.WriteLine("{0}. {1}", countVehicles, vehicle.TheVehicle.LicenseNumber);
+                Console.WriteLine("{0}. {1}", countVehicles, vehicle.Value.TheVehicle.LicenseNumber);
             }
+            if (countVehicles == 0)
+            {
+                Console.WriteLine("There are no vehicles in the garage to present.");
+            }
+            Console.WriteLine("Press any key to get back to main menu...");
+            Console.ReadKey();
+            Console.Clear();
         } //task 2
 
         public void GetConditionAndLicenseNumberAndChangeCondition()
         {
             string licenseNumber;
             eVehicleCondition i_NewCondition;
+            try
+            {
+                Console.Write("Please enter a license number: ");
+                licenseNumber = GetLicenseNumberFromUser();
 
-            Console.Write("Please enter a license number: ");
-            licenseNumber = GetLicenseNumberFromUser();
+                Console.WriteLine("Please enter a condition: ");
+                i_NewCondition = GetConditionFromUser();
 
-            Console.WriteLine("Please enter a condition: ");
-            i_NewCondition = GetConditionFromUser();
-
-            garage.ChangeVehicleCondition(licenseNumber, i_NewCondition);
-            Console.WriteLine(string.Format("the vehilce with {0} license number is now in {1} condition!", licenseNumber, i_NewCondition));
-        } //task 3
+                garage.ChangeVehicleCondition(licenseNumber, i_NewCondition);
+                Console.WriteLine(string.Format("the vehilce with {0} license number is now in {1} condition!", licenseNumber, i_NewCondition));
+            }
+            catch(ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                Console.WriteLine("Press any key to get back to main menu...");
+                Console.ReadKey();
+                Console.Clear();
+            }
+        } //task 3 // mush
 
         public eVehicleCondition GetConditionFromUser()
         {
@@ -516,31 +594,151 @@ namespace Ex03.ConsoleUI
                 }
             }
             return conditionThatTheUserChoose;
-        } //task 3
+        } //task 3 // mush
 
         public string GetLicenseNumberFromUser()
         {
-            bool validLicenseNumber = false;
-            string licenseNumber = null;
+            string licenseNumber;
+            licenseNumber = Console.ReadLine();
 
-            while (!validLicenseNumber)
+            if (!garage.CheckIfVehicleIsInTheGarage(licenseNumber))
             {
-                licenseNumber = Console.ReadLine();
-                try
+                throw new ArgumentException("The vehicle isn't in the garage at this moment. try again.");
+            }
+
+            return licenseNumber;
+        }//all task
+
+        public void InflatingWheelToMaximum()
+        {
+            string licenseNumber;
+            try
+            {
+                Console.Write("Please enter a license number: ");
+                licenseNumber = GetLicenseNumberFromUser();
+
+                VehicleOwnerData vehicleOwnerData = garage.vehicleOwnerDatas[licenseNumber];
+
+                foreach (var wheel in vehicleOwnerData.TheVehicle.WheelsList)
                 {
-                    if (!garage.CheckIfVehicleIsInTheGarage(licenseNumber))
-                    {
-                        throw new ArgumentException("The vehicle isn't in the garage at this moment. try again.");
-                    }
-                    validLicenseNumber = true;
+                    wheel.InflatingAWheel(wheel.MaxAirPressure - wheel.CurrentAirPressure);
                 }
-                catch (ArgumentException ex)
+                Console.WriteLine("All wheels have been inflated to their maximum air pressure.");
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                Console.WriteLine("Press any key to get back to main menu...");
+                Console.ReadKey();
+                Console.Clear();
+            }
+
+        }//task 4 // mush
+
+        public void PresentsFullDataAccordingToLicenseNumber()
+        {
+            string licenseNumber;
+            try
+            {
+                Console.Write("Please enter a license number: ");
+                licenseNumber = GetLicenseNumberFromUser();
+
+                VehicleOwnerData vehicleOwnerData = garage.vehicleOwnerDatas[licenseNumber];
+
+                PrintGeneralData(vehicleOwnerData);
+                PrintSpecificData(vehicleOwnerData);
+
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                Console.WriteLine("Press any key to get back to main menu...");
+                Console.ReadKey();
+                Console.Clear();
+            }
+        }//task7 //mush
+
+        public void PrintGeneralData(VehicleOwnerData vehicleOwnerData)
+        {
+            Console.WriteLine("information- ");
+            Console.WriteLine("License Number: {0}", vehicleOwnerData.TheVehicle.LicenseNumber);
+            Console.WriteLine("Model: {0}", vehicleOwnerData.TheVehicle.ModelName);
+            Console.WriteLine("Owner: {0}", vehicleOwnerData.OwnerName);
+            Console.WriteLine("Condition: {0}", vehicleOwnerData.VehicleCondition);
+            Console.WriteLine("Wheels data-");
+            foreach (var wheel in vehicleOwnerData.TheVehicle.WheelsList)
+            {
+                Console.WriteLine("Producer: {0}", wheel.ProducerName);
+                Console.WriteLine("Air pressure: {0}", wheel.CurrentAirPressure);
+            }
+
+            bool isFuelEngine = vehicleOwnerData.TheVehicle.VehicleEngine.GetType().FullName.Contains("FuelEngine");
+            Console.Write("{0} condition: {1} {2} remain - ", isFuelEngine ? "fuel" : "electric",
+                vehicleOwnerData.TheVehicle.VehicleEngine.RemainEnergy, isFuelEngine ? "liters" : "hours");
+            Console.WriteLine("{0}%",vehicleOwnerData.TheVehicle.RemainEnergyPercent);
+            if (isFuelEngine)
+            {
+                var fuelEngine = vehicleOwnerData.TheVehicle.VehicleEngine as FuelEngine;
+                if (fuelEngine != null)
                 {
-                    Console.WriteLine(ex.Message);
+                    Console.WriteLine("Fuel type: {0}", fuelEngine.FuelKind);
                 }
             }
-            return licenseNumber;
-        }  //all task
+        }//task7 // mush
+
+        public void PrintSpecificData(VehicleOwnerData vehicleOwnerData)
+        {
+            Type vehicleType = vehicleOwnerData.TheVehicle.GetType();
+
+            foreach (var property in vehicleType.GetProperties())
+            {
+                string nameWithSpaces = FormatPropertyName(property.Name);
+
+                if (property.Name == "LicenseNumber" || property.Name == "ModelName"
+                || property.Name == "RemainEnergyPercent" || property.Name == "VehicleEngine" || property.Name == "WheelsList")
+                {
+                    continue;
+                }
+
+                Console.WriteLine("{0}: {1}", nameWithSpaces, property.GetValue(vehicleOwnerData.TheVehicle));
+            }
+        }//task7 // mush
+
+        public void reRefueling()
+        {
+            string licenseNumber;
+            try
+            {
+                Console.Write("Please enter a license number: ");
+                licenseNumber = GetLicenseNumberFromUser();
+
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                Console.WriteLine("Press any key to get back to main menu...");
+                Console.ReadKey();
+                Console.Clear();
+            }
+        }
+
+        public void GetKindOfFuelFromUser()
+        {
+            Console.Write("Please choose a type of fuel to fill your vehicle:" + Environment.NewLine);
+            Console.Write("1. {0}", eFuelType.Octan98 + Environment.NewLine);
+            Console.Write("2. {1}", eFuelType.Octan95 + Environment.NewLine);
+            Console.Write("3. {2}", eFuelType.Soler + Environment.NewLine);
+
+        }
     }
 }
         

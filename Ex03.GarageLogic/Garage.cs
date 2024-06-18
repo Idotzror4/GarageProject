@@ -10,48 +10,38 @@ namespace Ex03.GarageLogic
 {
     public class Garage
     {
-        List<VehicleOwnerData> i_VehiclesInTheGarage;
+        Dictionary<string, VehicleOwnerData> i_VehiclesInTheGarage;
 
-        public List<VehicleOwnerData> vehicleOwnerDatas
+        public Dictionary<string, VehicleOwnerData> vehicleOwnerDatas
         {
             get { return i_VehiclesInTheGarage; }
         }
 
         public Garage()
         {
-            i_VehiclesInTheGarage = new List<VehicleOwnerData>();
+            i_VehiclesInTheGarage = new Dictionary<string, VehicleOwnerData>();
         }
 
         public bool CheckIfVehicleIsInTheGarage(string i_LicenseNumber)
         {
-            bool foundVehicle = false;
-
-            foreach (VehicleOwnerData item in i_VehiclesInTheGarage)
-            {
-                if (item.TheVehicle.LicenseNumber.Equals(i_LicenseNumber))
-                {
-                    foundVehicle = true;
-                    break;
-                }
-            }
-            return foundVehicle;
+            return i_VehiclesInTheGarage.ContainsKey(i_LicenseNumber);
         }
 
         public void ChangeVehicleCondition(string i_LicenseNumber, eVehicleCondition i_NewCondition)
         {
-            foreach (VehicleOwnerData item in i_VehiclesInTheGarage)
+            if (CheckIfVehicleIsInTheGarage(i_LicenseNumber))
             {
-                if (item.TheVehicle.LicenseNumber.Equals(i_LicenseNumber))
-                {
-                    item.VehicleCondition = i_NewCondition;
-                    break;
-                }
+                i_VehiclesInTheGarage[i_LicenseNumber].VehicleCondition = i_NewCondition;
+            }
+            else
+            {
+                throw new ArgumentException("Vehicle with license number {0} is not found in the garage.", i_LicenseNumber);
             }
         }
 
         public void AddVehicleToGarage(VehicleOwnerData i_VehicleOwnerData)
         {
-            i_VehiclesInTheGarage.Add(i_VehicleOwnerData);
+            i_VehiclesInTheGarage.Add(i_VehicleOwnerData.TheVehicle.LicenseNumber, i_VehicleOwnerData);
         }
     }
 }
