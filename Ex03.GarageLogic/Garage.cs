@@ -11,7 +11,12 @@ namespace Ex03.GarageLogic
     public class Garage
     {
         List<VehicleOwnerData> i_VehiclesInTheGarage;
-        
+
+        public List<VehicleOwnerData> vehicleOwnerDatas
+        {
+            get { return i_VehiclesInTheGarage; }
+        }
+
         public Garage()
         {
             i_VehiclesInTheGarage = new List<VehicleOwnerData>();
@@ -32,37 +37,21 @@ namespace Ex03.GarageLogic
             return foundVehicle;
         }
 
-        public void ChangeVehicleConditionToUnderRepair(string i_LicenseNumber)
+        public void ChangeVehicleCondition(string i_LicenseNumber, eVehicleCondition i_NewCondition)
         {
             foreach (VehicleOwnerData item in i_VehiclesInTheGarage)
             {
                 if (item.TheVehicle.LicenseNumber.Equals(i_LicenseNumber))
                 {
-                    item.VehicleCondition = eVehicleCondition.UnderRepair;
+                    item.VehicleCondition = i_NewCondition;
                     break;
                 }
             }
         }
 
-
-        //    public Dictionary<string, string>  chooseDictionery(string i_KindVehicle)
-        //    {
-        //        Dictionary<string, string> vehicleQuestions = new Dictionary<string, string>();
-        //        switch (i_KindVehicle.ToLower())
-        //        {
-        //            case "car":
-        //                vehicleQuestions = Car.GetVehicleQuestions();
-        //                break;
-        //            case "motorcycle":
-        //                vehicleQuestions = Motorcycle.GetVehicleQuestions();
-        //                break;
-        //            case "truck":
-        //                vehicleQuestions = Truck.GetVehicleQuestions();
-        //                break;
-        //            default:
-        //                throw new ArgumentException("Invalid vehicle type.");
-        //        }
-        //        return vehicleQuestions;
-        //    }
+        public void AddVehicleToGarage(VehicleOwnerData i_VehicleOwnerData)
+        {
+            i_VehiclesInTheGarage.Add(i_VehicleOwnerData);
+        }
     }
 }
