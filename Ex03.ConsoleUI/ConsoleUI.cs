@@ -18,6 +18,8 @@ namespace Ex03.ConsoleUI
         private const int k_MaxVehicleChoice = 5;
         private const int k_MinLicensesDisplayChoice = 1;
         private const int k_MaxLicensesDisplayChoice = 4;
+        private const int k_MinActionChoice = 1;
+        private const int k_MaxActionChoice = 7;
 
         public void RunTheGarage() //done
         {
@@ -77,19 +79,19 @@ namespace Ex03.ConsoleUI
                 {
                     if (int.TryParse(Console.ReadLine(), out actionChoice))
                     {
-                        if (actionChoice < 1 || actionChoice > 7)
+                        if (actionChoice < k_MinActionChoice || actionChoice > k_MaxActionChoice)
                         {
-                            throw new ArgumentException("please enter between 1-7 actions only.");
+                            throw new ValueOutOfRangeException(k_MinActionChoice, k_MaxActionChoice);
                         }
 
                         validInput = true;
                     }
                     else
                     {
-                        throw new FormatException();
+                        throw new FormatException("please enter a valid input");
                     }
                 }
-                catch (ArgumentException ex)
+                catch (ValueOutOfRangeException ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
@@ -805,6 +807,9 @@ namespace Ex03.ConsoleUI
                 eFuelType = getKindOfFuelFromUser();
                 amountOfFuel = getAmountOfEnergyFromUser();
                 garage.CheckIfTheFuelSuitableForVehicle(licenseNumber, eFuelType, amountOfFuel);
+                Console.WriteLine("the tank refuled successfully! the remain fuel is now {0}",
+                    garage.VehicleOwnerDatas[licenseNumber].TheVehicle.VehicleEngine.RemainEnergy);
+
             }
             catch (ArgumentException ex)
             {
@@ -831,6 +836,8 @@ namespace Ex03.ConsoleUI
                 licenseNumber = getLicenseNumberFromUser();
                 amountOfElectric = getAmountOfEnergyFromUser();
                 garage.CheckIfTheElectricSuitableForVehicle(licenseNumber, amountOfElectric);
+                Console.WriteLine("the battery charged successfully! the remain hours of battery are now {0}",
+                    garage.VehicleOwnerDatas[licenseNumber].TheVehicle.VehicleEngine.RemainEnergy);
             }
             catch (ArgumentException ex)
             {
@@ -922,5 +929,3 @@ namespace Ex03.ConsoleUI
         }
     }
 }
-        
-

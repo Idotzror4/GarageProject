@@ -100,5 +100,24 @@ namespace Ex03.GarageLogic
                 m_Wheels.Add(new Wheel(i_MaxAirPressure));
             }
         }
+
+        public void AddEnergy(float i_FuelAmountToAdd, eFuelType i_FuelKind)
+        {
+            if(this.m_VehicleEngine is FuelEngine)
+            {
+                if (!i_FuelKind.Equals((this.m_VehicleEngine as FuelEngine).FuelKind))
+                {
+                    throw new ArgumentException("The fuel kind isn't suitable.");
+                }
+                else
+                {
+                    this.m_VehicleEngine.AddEnergy(i_FuelAmountToAdd);
+                }
+            }
+        }
+        public void AddEnergy(float i_HoursAmountToAdd)
+        {
+            this.m_VehicleEngine.AddEnergy(i_HoursAmountToAdd);
+        }
     }
 }

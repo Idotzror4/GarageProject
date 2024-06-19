@@ -26,16 +26,6 @@ namespace Ex03.GarageLogic
             m_MaxEnergy = i_MaxEnergy;
         }
 
-        public void AddEnergy(float i_AmountEnergyToAdd, eFuelType? i_FuelKind = null)
-        {
-            if (this is FuelEngine fuelEngine)
-            {
-                fuelEngine.Refueling(i_AmountEnergyToAdd, i_FuelKind.Value);
-            }
-            else if (this is ElectricEngine electricEngine)
-            {
-                electricEngine.BatteryCharging(i_AmountEnergyToAdd);
-            }
-        }
+        public abstract void AddEnergy(float i_AmountEnergyToAdd);
     }
 }

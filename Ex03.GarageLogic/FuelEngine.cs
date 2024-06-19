@@ -22,20 +22,16 @@ namespace Ex03.GarageLogic
             m_FuelKind = i_FuelKind;
         }
 
-        public void Refueling(float i_FuelAmountToAdd, eFuelType i_FuelKind)
+        public override void AddEnergy(float i_AmountEnergyToAdd)
         {
-            if (!i_FuelKind.Equals(m_FuelKind))
-            {
-                throw new ArgumentException("The fuel kind isn't suitable.");
-            }
-            else if (i_FuelAmountToAdd + RemainEnergy > MaxEnergy)
+            if (i_AmountEnergyToAdd + RemainEnergy > MaxEnergy)
             {
                 throw new ValueOutOfRangeException(0, MaxEnergy - RemainEnergy, 
                     "you exceed the amount of fuel you can fill.It should be between {0} and {1}");
             }
             else
             {
-                RemainEnergy += i_FuelAmountToAdd;
+                RemainEnergy += i_AmountEnergyToAdd;
             }
         }
     }
