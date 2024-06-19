@@ -129,7 +129,7 @@ namespace Ex03.ConsoleUI
                 PrintsTheChooseOfVehicle();
                 kindOfVehicle = vehicleChoiceVlidationCheck(validInput);
 
-                newOwnerInTheGarage.TheVehicle = Factory.CreateNewVehicle(kindOfVehicle);
+                garage.CreateNewVehicleFromTheGarage(newOwnerInTheGarage, kindOfVehicle);
                 newOwnerInTheGarage.TheVehicle.LicenseNumber = licenseNumber;
 
                 getGeneralVehicleData(newOwnerInTheGarage.TheVehicle);

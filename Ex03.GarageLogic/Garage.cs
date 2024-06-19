@@ -78,5 +78,10 @@ namespace Ex03.GarageLogic
                 throw new ArgumentException("The vehicle engine is not an electric engine.");
             }
         }
+
+        public void CreateNewVehicleFromTheGarage(VehicleOwnerData newOwnerInTheGarage, int kindOfVehicle)
+        {
+            newOwnerInTheGarage.TheVehicle = Factory.CreateNewVehicle(kindOfVehicle);
+        }
     }
 }
