@@ -52,6 +52,9 @@ namespace Ex03.GarageLogic
             if (vehicleOwnerData.TheVehicle.VehicleEngine is FuelEngine)
             {
                 vehicleOwnerData.TheVehicle.VehicleEngine.AddEnergy(i_AmountOfFuel, i_FuelKind);
+                vehicleOwnerData.TheVehicle.RemainEnergyPercent =
+                    vehicleOwnerData.TheVehicle.VehicleEngine.RemainEnergy /
+                         (vehicleOwnerData.TheVehicle.VehicleEngine.MaxEnergy) * 100;
             }
             else
             {
@@ -66,6 +69,9 @@ namespace Ex03.GarageLogic
             if (vehicleOwnerData.TheVehicle.VehicleEngine is ElectricEngine)
             {
                 vehicleOwnerData.TheVehicle.VehicleEngine.AddEnergy(i_AmountOfFuel, null);
+                vehicleOwnerData.TheVehicle.RemainEnergyPercent =
+                    vehicleOwnerData.TheVehicle.VehicleEngine.RemainEnergy /
+                         (vehicleOwnerData.TheVehicle.VehicleEngine.MaxEnergy) * 100;
             }
             else
             {

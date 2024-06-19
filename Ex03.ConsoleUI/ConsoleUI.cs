@@ -221,7 +221,6 @@ namespace Ex03.ConsoleUI
                         }
                         else if (property.PropertyType == typeof(int) || property.PropertyType == typeof(float))
                         {
-
                             handleFloatIntPropertyType(ref temporarlyProperty, i_Vehicle, nameWithSpaces);
                         }
                         else
@@ -365,10 +364,10 @@ namespace Ex03.ConsoleUI
                 }
             }
 
-            enterWHeelsData(i_Vehicle);
+            enterWheelsData(i_Vehicle);
         } //task 1 //done
 
-        private void enterWHeelsData(Vehicle i_Vehicle)
+        private void enterWheelsData(Vehicle i_Vehicle)
         {
             int userCHoiceForWHeels = 0;
             bool validChoice = false;
@@ -806,10 +805,6 @@ namespace Ex03.ConsoleUI
                 eFuelType = getKindOfFuelFromUser();
                 amountOfFuel = getAmountOfEnergyFromUser();
                 garage.CheckIfTheFuelSuitableForVehicle(licenseNumber, eFuelType, amountOfFuel);
-                garage.VehicleOwnerDatas[licenseNumber].TheVehicle.RemainEnergyPercent = 
-                    garage.VehicleOwnerDatas[licenseNumber].TheVehicle.VehicleEngine.RemainEnergy /
-                         (garage.VehicleOwnerDatas[licenseNumber].TheVehicle.VehicleEngine.MaxEnergy) * 100;
-
             }
             catch (ArgumentException ex)
             {
@@ -836,9 +831,6 @@ namespace Ex03.ConsoleUI
                 licenseNumber = getLicenseNumberFromUser();
                 amountOfElectric = getAmountOfEnergyFromUser();
                 garage.CheckIfTheElectricSuitableForVehicle(licenseNumber, amountOfElectric);
-                garage.VehicleOwnerDatas[licenseNumber].TheVehicle.RemainEnergyPercent =
-                    garage.VehicleOwnerDatas[licenseNumber].TheVehicle.VehicleEngine.RemainEnergy /
-                         (garage.VehicleOwnerDatas[licenseNumber].TheVehicle.VehicleEngine.MaxEnergy) * 100;
             }
             catch (ArgumentException ex)
             {
