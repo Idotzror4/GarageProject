@@ -25,11 +25,5 @@ namespace Ex03.GarageLogic
             m_MinValue = i_MinValue;
             m_MaxValue = i_MaxValue;
         }
-        public ValueOutOfRangeException(float i_MinValue, float i_MaxValue, Exception i_innerException)
-            : base(String.Format(ms_ErrorMessage, i_MinValue, i_MaxValue), i_innerException)
-        {
-            m_MinValue = i_MinValue;
-            m_MaxValue = i_MaxValue;
-        }
     }
 }
