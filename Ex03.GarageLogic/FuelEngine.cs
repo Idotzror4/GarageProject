@@ -30,7 +30,8 @@ namespace Ex03.GarageLogic
             }
             else if (i_FuelAmountToAdd + RemainEnergy > MaxEnergy)
             {
-                throw new ValueOutOfRangeException(0, MaxEnergy - RemainEnergy);
+                throw new ValueOutOfRangeException(0, MaxEnergy - RemainEnergy, 
+                    "you exceed the amount of fuel you can fill.It should be between {0} and {1}");
             }
             else
             {

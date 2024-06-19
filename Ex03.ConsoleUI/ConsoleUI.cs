@@ -32,6 +32,8 @@ namespace Ex03.ConsoleUI
                     InflatingWheelToMaximum();
                 if (actionChoice == 5)
                     Refueling();
+                if (actionChoice == 6)
+                    BatteryCharging();
                 if (actionChoice == 7)
                     PresentsFullDataAccordingToLicenseNumber();
             }
@@ -273,7 +275,7 @@ namespace Ex03.ConsoleUI
 
         public void GetGeneralVehicleData(Vehicle i_Vehicle)
         {
-            float energyPrecent;
+            float energyRemain;
             bool validEnergyPrecent = false;
             Console.Write("Please enter your vehicle model name: ");
             i_Vehicle.ModelName = Console.ReadLine();
@@ -284,11 +286,18 @@ namespace Ex03.ConsoleUI
             {
                 try
                 {
-                    if (float.TryParse(Console.ReadLine(), out energyPrecent))
+                    if (float.TryParse(Console.ReadLine(), out energyRemain))
                     {
-                        i_Vehicle.VehicleEngine.RemainEnergy = energyPrecent;
-                        i_Vehicle.RemainEnergyPercent = (energyPrecent / i_Vehicle.VehicleEngine.MaxEnergy) * 100;
-                        validEnergyPrecent = true;
+                        if (energyRemain <= i_Vehicle.VehicleEngine.MaxEnergy)
+                        {
+                            i_Vehicle.VehicleEngine.RemainEnergy = energyRemain;
+                            i_Vehicle.RemainEnergyPercent = (energyRemain / i_Vehicle.VehicleEngine.MaxEnergy) * 100;
+                            validEnergyPrecent = true;
+                        }
+                        else
+                        {
+                            throw new ValueOutOfRangeException(0, i_Vehicle.VehicleEngine.MaxEnergy);
+                        }
                     }
                     else
                     {
@@ -296,6 +305,10 @@ namespace Ex03.ConsoleUI
                     }
                 }
                 catch (FormatException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch (ValueOutOfRangeException ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
@@ -732,13 +745,46 @@ namespace Ex03.ConsoleUI
             {
                 Console.WriteLine(ex.Message);
             }
+            catch (ValueOutOfRangeException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
             finally
             {
                 Console.WriteLine("Press any key to get back to main menu...");
                 Console.ReadKey();
                 Console.Clear();
             }
-        }
+        } // task 5
+
+        public void BatteryCharging()
+        {
+            string licenseNumber;
+            bool validElectric = false;
+            float amountOfElectric;
+            try
+            {
+                Console.Write("Please enter a license number: ");
+                licenseNumber = GetLicenseNumberFromUser();
+
+                amountOfElectric = GetAmountOfEnergyFromUser();
+                garage.CheckIfTheElectricSuitableForVehicle(licenseNumber, amountOfElectric);
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch (ValueOutOfRangeException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                Console.WriteLine("Press any key to get back to main menu...");
+                Console.ReadKey();
+                Console.Clear();
+            }
+        } // task 6
 
         public eFuelType GetKindOfFuelFromUser()
         {
@@ -769,13 +815,9 @@ namespace Ex03.ConsoleUI
                 {
                     Console.WriteLine(ex.Message);
                 }
-                catch (ArgumentException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
             }
             return eFuelType;
-        }
+        } // task 5
 
         public float GetAmountOfEnergyFromUser()
         {
@@ -808,7 +850,7 @@ namespace Ex03.ConsoleUI
                 }
             }
             return valueFromUser;
-        }
+        } // task 5 + 6
 
     }
 }

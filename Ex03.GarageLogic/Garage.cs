@@ -68,7 +68,7 @@ namespace Ex03.GarageLogic
             }
             else
             {
-                throw new ArgumentException("The vehicle engine is not a electric engine.");
+                throw new ArgumentException("The vehicle engine is not an electric engine.");
             }
         }
     }
