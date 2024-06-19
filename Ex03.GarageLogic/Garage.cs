@@ -10,28 +10,28 @@ namespace Ex03.GarageLogic
 {
     public class Garage
     {
-        Dictionary<string, VehicleOwnerData> i_VehiclesInTheGarage;
+        Dictionary<string, VehicleOwnerData> m_VehiclesInTheGarage;
 
-        public Dictionary<string, VehicleOwnerData> vehicleOwnerDatas
+        public Dictionary<string, VehicleOwnerData> VehicleOwnerDatas
         {
-            get { return i_VehiclesInTheGarage; }
+            get { return m_VehiclesInTheGarage; }
         }
 
         public Garage()
         {
-            i_VehiclesInTheGarage = new Dictionary<string, VehicleOwnerData>();
+            m_VehiclesInTheGarage = new Dictionary<string, VehicleOwnerData>();
         }
 
         public bool CheckIfVehicleIsInTheGarage(string i_LicenseNumber)
         {
-            return i_VehiclesInTheGarage.ContainsKey(i_LicenseNumber);
+            return m_VehiclesInTheGarage.ContainsKey(i_LicenseNumber);
         }
 
         public void ChangeVehicleCondition(string i_LicenseNumber, eVehicleCondition i_NewCondition)
         {
             if (CheckIfVehicleIsInTheGarage(i_LicenseNumber))
             {
-                i_VehiclesInTheGarage[i_LicenseNumber].VehicleCondition = i_NewCondition;
+                m_VehiclesInTheGarage[i_LicenseNumber].VehicleCondition = i_NewCondition;
             }
             else
             {
@@ -41,14 +41,15 @@ namespace Ex03.GarageLogic
 
         public void AddVehicleToGarage(VehicleOwnerData i_VehicleOwnerData)
         {
-            i_VehiclesInTheGarage.Add(i_VehicleOwnerData.TheVehicle.LicenseNumber, i_VehicleOwnerData);
+            m_VehiclesInTheGarage.Add(i_VehicleOwnerData.TheVehicle.LicenseNumber, i_VehicleOwnerData);
         }
 
-        public void CheckIfTheFuelSuitableForVehicle(string i_LicenseNumber, eFuelType i_FuelKind, float i_AmountOfFuel)
+        public void CheckIfTheFuelSuitableForVehicle(string i_LicenseNumber,
+                                                           eFuelType i_FuelKind, float i_AmountOfFuel)
         {
-            VehicleOwnerData vehicleOwnerData = vehicleOwnerDatas[i_LicenseNumber];
+            VehicleOwnerData vehicleOwnerData = VehicleOwnerDatas[i_LicenseNumber];
 
-            if (vehicleOwnerData.TheVehicle.VehicleEngine is FuelEngine fuelEngine)
+            if (vehicleOwnerData.TheVehicle.VehicleEngine is FuelEngine)
             {
                 vehicleOwnerData.TheVehicle.VehicleEngine.AddEnergy(i_AmountOfFuel, i_FuelKind);
             }
@@ -60,9 +61,9 @@ namespace Ex03.GarageLogic
 
         public void CheckIfTheElectricSuitableForVehicle(string i_LicenseNumber, float i_AmountOfFuel)
         {
-            VehicleOwnerData vehicleOwnerData = vehicleOwnerDatas[i_LicenseNumber];
+            VehicleOwnerData vehicleOwnerData = VehicleOwnerDatas[i_LicenseNumber];
 
-            if (vehicleOwnerData.TheVehicle.VehicleEngine is ElectricEngine electricEngine)
+            if (vehicleOwnerData.TheVehicle.VehicleEngine is ElectricEngine)
             {
                 vehicleOwnerData.TheVehicle.VehicleEngine.AddEnergy(i_AmountOfFuel, null);
             }

@@ -10,6 +10,8 @@ namespace Ex03.GarageLogic
     {
         private eCarColor m_CarColor;
         private eDoorsNumber m_DoorsNumber;
+        private const int k_CarWheelsNumber = 5;
+        private const int k_CarMaxAirPressure = 31;
 
         public eCarColor CarColor
         {
@@ -21,10 +23,6 @@ namespace Ex03.GarageLogic
             get { return m_DoorsNumber; }
             set { m_DoorsNumber = value; }
         }
-
-        public Car(Engine i_Engine) : base(5, 31, i_Engine)
-        {
-
-        }
+        public Car(Engine i_Engine) : base(k_CarWheelsNumber, k_CarMaxAirPressure, i_Engine) { }
     }
 }

@@ -10,6 +10,8 @@ namespace Ex03.GarageLogic
     {
         private bool m_TransportsHazardousMaterial;
         private float m_CargoVolume;
+        private const int k_TruckWheelsNumber = 12;
+        private const int k_TruckMaxAirPressure = 28;
 
         public bool TransportsHazardousMaterial
         {
@@ -21,10 +23,7 @@ namespace Ex03.GarageLogic
             get { return m_CargoVolume; }
             set { m_CargoVolume = value; }
         }
-
-        public Truck(Engine i_Engine) : base(12, 28, i_Engine)
-        {
-
-        }
+        public Truck(Engine i_Engine) : base(k_TruckWheelsNumber, 
+                                             k_TruckMaxAirPressure, i_Engine) { }
     }
 }

@@ -15,9 +15,9 @@ namespace Ex03.GarageLogic
             private float m_CurrentAirPressure;
             private float m_MaxAirPressure;
 
-            public Wheel(float i_maxAirPressure)
+            public Wheel(float i_MaxAirPressure)
             {
-                m_MaxAirPressure = i_maxAirPressure;
+                m_MaxAirPressure = i_MaxAirPressure;
             }
             public string ProducerName
             {
@@ -35,7 +35,7 @@ namespace Ex03.GarageLogic
                 set { m_MaxAirPressure = value; }
             }
 
-            public void InflatingAWheel(float i_AmountOfAirAddindToTheWheel) //throwing exception but not catching it
+            public void InflatingAWheel(float i_AmountOfAirAddindToTheWheel)
             {
                 if (i_AmountOfAirAddindToTheWheel + m_CurrentAirPressure > m_MaxAirPressure)
                 {
@@ -49,13 +49,16 @@ namespace Ex03.GarageLogic
             public bool CheckingIfCurrentPressureValid(float i_CurrentAirPressure)
             {
                 bool isValid = true;
+
                 if(i_CurrentAirPressure > m_MaxAirPressure)
                 {
                     isValid = false;
                 }    
+
                 return isValid;
             }
         }
+
         private string m_ModelName;
         private string m_LicenseNumber;
         private float m_RemainEnergyPercent;
@@ -87,11 +90,9 @@ namespace Ex03.GarageLogic
             get { return m_Wheels; }
             set { m_Wheels = value; }
         }
-
         public Vehicle(int i_AmountOfWheels, float i_MaxAirPressure, Engine i_Engine)
         {
             m_VehicleEngine = i_Engine;
-
             m_Wheels = new List<Wheel>(i_AmountOfWheels);
 
             for (int i = 0; i < i_AmountOfWheels; i++)
@@ -99,6 +100,5 @@ namespace Ex03.GarageLogic
                 m_Wheels.Add(new Wheel(i_MaxAirPressure));
             }
         }
-       
     }
 }

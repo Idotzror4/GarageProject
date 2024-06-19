@@ -8,11 +8,7 @@ namespace Ex03.GarageLogic
 {
     internal class ElectricEngine : Engine
     {
-
-        public ElectricEngine(float i_MaxEnergy) : base(i_MaxEnergy)
-        {
-
-        }
+        public ElectricEngine(float i_MaxEnergy) : base(i_MaxEnergy) { }
 
         public void BatteryCharging(float i_HoursAmountToAdd)
         {
@@ -25,6 +21,5 @@ namespace Ex03.GarageLogic
                 RemainEnergy += i_HoursAmountToAdd;
             }
         }
-
     }
 }

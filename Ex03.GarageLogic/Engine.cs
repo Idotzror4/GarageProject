@@ -21,7 +21,6 @@ namespace Ex03.GarageLogic
             get { return m_MaxEnergy; }
         }
 
-
         public Engine(float i_MaxEnergy)
         {
             m_MaxEnergy = i_MaxEnergy;
@@ -29,7 +28,7 @@ namespace Ex03.GarageLogic
 
         public void AddEnergy(float i_AmountEnergyToAdd, eFuelType? i_FuelKind = null)
         {
-            if(this is FuelEngine fuelEngine)
+            if (this is FuelEngine fuelEngine)
             {
                 fuelEngine.Refueling(i_AmountEnergyToAdd, i_FuelKind.Value);
             }

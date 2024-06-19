@@ -10,8 +10,8 @@ namespace Ex03.ConsoleUI
     {
         static void Main()
         {
-            ConsoleUI hi = new ConsoleUI();
-            hi.RunTheGarage();
+            ConsoleUI myFirstGarage = new ConsoleUI();
+            myFirstGarage.RunTheGarage();
         }
     }
 }
